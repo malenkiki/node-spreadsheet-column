@@ -1,0 +1,30 @@
+{
+    "name": "spreadsheet-column",
+    "version": "0.9.0",
+    "description": "Converts spreadsheet column letter index to numeric index and vice versa.",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha"
+    },
+    "keywords": [
+        "spreadsheet",
+        "coordinates",
+        "letter",
+        "index"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/malenkiki/node-spreadsheet-column.git"
+    },
+    "bugs": {
+        "url": "https://github.com/malenkiki/node-spreadsheet-column/issues"
+    },
+    "engines": {
+        "node": "*"
+    },
+    "devDependencies": {
+        "mocha": "2.2.4"
+    },
+    "author": "Michel Petit",
+    "license": "MIT"
+}
