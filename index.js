@@ -93,6 +93,7 @@ function SpreadsheetColumn(opt){
     this.init(opt);
 };
 
+module.exports = SpreadsheetColumn;
 
 /*
 var sc = new SpreadsheetColumn();
