@@ -94,20 +94,3 @@ function SpreadsheetColumn(opt){
 };
 
 module.exports = SpreadsheetColumn;
-
-/*
-var sc = new SpreadsheetColumn();
-console.log(sc.fromInt(1));
-console.log(sc.fromInt(2));
-console.log(sc.fromInt(25));
-console.log(sc.fromInt(26));
-console.log(sc.fromInt(27));
-console.log(sc.fromInt(28));
-
-console.log(sc.fromStr("A"));
-console.log(sc.fromStr("B"));
-console.log(sc.fromStr("Y"));
-console.log(sc.fromStr("Z"));
-console.log(sc.fromStr("AA"));
-console.log(sc.fromStr("AB"));
-*/

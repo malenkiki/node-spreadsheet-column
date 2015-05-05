@@ -51,6 +51,14 @@ describe('Converting from numeric index', function(){
         assert.equal("BI", sc.fromInt(61));
     });
 
+    it('should return "ZZ" string for integer 702', function(){
+        assert.equal("ZZ", sc.fromInt(702));
+    });
+
+    it('should return "AAA" string for integer 703', function(){
+        assert.equal("AAA", sc.fromInt(703));
+    });
+
     it('should return "ADO" string for integer 795', function(){
         assert.equal("ADO", sc.fromInt(795));
     });
