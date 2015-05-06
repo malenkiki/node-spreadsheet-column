@@ -5,6 +5,20 @@ var sc = new SpreadsheetColumn();
 var scz = new SpreadsheetColumn({zero: true});
 
 describe('Converting from numeric index starting from one', function(){
+    it('should throw error if not an integer', function(){
+        assert.throws(function(){sc.fromInt("a");});
+        assert.throws(function(){sc.fromInt(3.14);});
+    });
+    
+    it('should throw error if it is a negative integer', function(){
+        assert.throws(function(){sc.fromInt(-42);});
+    });
+    
+    it('should throw error if zero', function(){
+        assert.throws(function(){sc.fromInt(0);});
+    });
+
+
     it('should return one-character length string', function(){
         assert.equal(sc.fromInt(1).length, 1);
         assert.equal(sc.fromInt(17).length, 1);
@@ -73,6 +87,19 @@ describe('Converting from numeric index starting from one', function(){
 });
 
 describe('Converting from numeric index starting from zero', function(){
+    it('should throw error if not an integer', function(){
+        assert.throws(function(){scz.fromInt("a");});
+        assert.throws(function(){scz.fromInt(3.14);});
+    });
+    
+    it('should throw error if it is a negative integer', function(){
+        assert.throws(function(){scz.fromInt(-42);});
+    });
+    
+    it('should not throw error if zero', function(){
+        assert.doesNotThrow(function(){scz.fromInt(0);});
+    });
+
 
     it('should return "A" string for integer 0', function(){
         assert.equal(scz.fromInt(0), 'A');
@@ -121,4 +148,143 @@ describe('Converting from numeric index starting from zero', function(){
     it('should return "AEO" string for integer 820', function(){
         assert.equal(scz.fromInt(820), "AEO");
     });
+});
+
+
+describe('Converting from string to integer', function(){
+    it('should throw error if argument is not a string', function(){
+        assert.throws(function(){sc.fromStr(1);});
+        assert.throws(function(){sc.fromStr(2.0);});
+        assert.throws(function(){sc.fromStr({three: 3});});
+        assert.throws(function(){sc.fromStr([4]);});
+        assert.throws(function(){sc.fromStr(function(){var foo = 'I does nothing';});});
+    });
+
+    it('should throw error if argument is null string', function(){
+        assert.throws(function(){sc.fromStr('');});
+    });
+
+    it('should throw error if argument is non only ASCII letter string', function(){
+        assert.throws(function(){sc.fromStr('éçà:&?,()£$ ô.');});
+    });
+
+    it('should return integer value for a valid string', function(){
+        assert.equal(typeof(sc.fromStr('BAR')), 'number');
+        assert.equal(parseInt(sc.fromStr('BAR')) - sc.fromStr('BAR'), 0);
+    });
+
+    it('should return same value for same string in lower or upper cases', function(){
+        assert.equal(sc.fromStr('BAR'), sc.fromStr('bar'));
+        assert.equal(sc.fromStr('FOO'), sc.fromStr('foo'));
+    });
+});
+
+describe('Converting from string to integer one-indexed', function(){
+    it('should return 1 for "A" or "a"', function(){
+        assert.equal(sc.fromStr('A'), 1);
+        assert.equal(sc.fromStr('a'), 1);
+    });
+    
+    it('should return 2 for "B" or "b"', function(){
+        assert.equal(sc.fromStr('B'), 2);
+        assert.equal(sc.fromStr('b'), 2);
+    });
+    
+    it('should return 25 for "Y" or "y"', function(){
+        assert.equal(sc.fromStr('Y'), 25);
+        assert.equal(sc.fromStr('y'), 25);
+    });
+    
+    it('should return 26 for "Z" or "z"', function(){
+        assert.equal(sc.fromStr('Z'), 26);
+        assert.equal(sc.fromStr('z'), 26);
+    });
+    
+    it('should return 27 for "AA" or "aa" or "Aa" or "aA"', function(){
+        assert.equal(sc.fromStr('AA'), 27);
+        assert.equal(sc.fromStr('aa'), 27);
+        assert.equal(sc.fromStr('Aa'), 27);
+        assert.equal(sc.fromStr('aA'), 27);
+    });
+    
+    it('should return 702 for "ZZ" or "zz" or "Zz" or "zZ"', function(){
+        assert.equal(sc.fromStr('ZZ'), 702);
+        assert.equal(sc.fromStr('zz'), 702);
+        assert.equal(sc.fromStr('zZ'), 702);
+        assert.equal(sc.fromStr('Zz'), 702);
+    });
+
+    it('should return 703 for "AAA" or "aaa" or "AAa" or…', function(){
+        assert.equal(sc.fromStr('AAA'), 703);
+        assert.equal(sc.fromStr('AAa'), 703);
+        assert.equal(sc.fromStr('AaA'), 703);
+        assert.equal(sc.fromStr('aAA'), 703);
+        assert.equal(sc.fromStr('aaA'), 703);
+        assert.equal(sc.fromStr('Aaa'), 703);
+    });
+
+    it('should return 704 for "AAB" or "aab" or "AAb" or…', function(){
+        assert.equal(sc.fromStr('AAB'), 704);
+        assert.equal(sc.fromStr('AAb'), 704);
+        assert.equal(sc.fromStr('AaB'), 704);
+        assert.equal(sc.fromStr('aAB'), 704);
+        assert.equal(sc.fromStr('aaB'), 704);
+        assert.equal(sc.fromStr('Aab'), 704);
+    });
+
+});
+
+describe('Converting from string to integer zero-indexed', function(){
+    it('should return 0 for "A" or "a"', function(){
+        assert.equal(scz.fromStr('A'), 0);
+        assert.equal(scz.fromStr('a'), 0);
+    });
+    
+    it('should return 1 for "B" or "b"', function(){
+        assert.equal(scz.fromStr('B'), 1);
+        assert.equal(scz.fromStr('b'), 1);
+    });
+    
+    it('should return 24 for "Y" or "y"', function(){
+        assert.equal(scz.fromStr('Y'), 24);
+        assert.equal(scz.fromStr('y'), 24);
+    });
+    
+    it('should return 25 for "Z" or "z"', function(){
+        assert.equal(scz.fromStr('Z'), 25);
+        assert.equal(scz.fromStr('z'), 25);
+    });
+    
+    it('should return 26 for "AA" or "aa" or "Aa" or "aA"', function(){
+        assert.equal(scz.fromStr('AA'), 26);
+        assert.equal(scz.fromStr('aa'), 26);
+        assert.equal(scz.fromStr('Aa'), 26);
+        assert.equal(scz.fromStr('aA'), 26);
+    });
+    
+    it('should return 701 for "ZZ" or "zz" or "Zz" or "zZ"', function(){
+        assert.equal(scz.fromStr('ZZ'), 701);
+        assert.equal(scz.fromStr('zz'), 701);
+        assert.equal(scz.fromStr('zZ'), 701);
+        assert.equal(scz.fromStr('Zz'), 701);
+    });
+
+    it('should return 702 for "AAA" or "aaa" or "AAa" or…', function(){
+        assert.equal(scz.fromStr('AAA'), 702);
+        assert.equal(scz.fromStr('AAa'), 702);
+        assert.equal(scz.fromStr('AaA'), 702);
+        assert.equal(scz.fromStr('aAA'), 702);
+        assert.equal(scz.fromStr('aaA'), 702);
+        assert.equal(scz.fromStr('Aaa'), 702);
+    });
+
+    it('should return 703 for "AAB" or "aab" or "AAb" or…', function(){
+        assert.equal(scz.fromStr('AAB'), 703);
+        assert.equal(scz.fromStr('AAb'), 703);
+        assert.equal(scz.fromStr('AaB'), 703);
+        assert.equal(scz.fromStr('aAB'), 703);
+        assert.equal(scz.fromStr('aaB'), 703);
+        assert.equal(scz.fromStr('Aab'), 703);
+    });
+
 });
