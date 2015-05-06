@@ -5,6 +5,10 @@ function SpreadsheetColumn(opt){
     this.arr = [];
 
     this.init = function(opt){
+        if(opt && typeof(opt.zero) === 'boolean'){
+            this.fromZero = opt.zero;
+        }
+
         for(var code = 97; code < (97 + 26); code++){
             this.arr.push(String.fromCharCode(code));
         }
@@ -41,42 +45,18 @@ function SpreadsheetColumn(opt){
             throw 'Numeric coordinate cannot be zero if starting point is one!' ;
         }
 
-	// Thanks to http://stackoverflow.com/a/3302991
-/*
-        var result = '';
-        var count = 0;
-
-        for(var i = 0; count < n; i++) {
-
-            var name = '';
-            var colN = i;
-
-            while(colN > 0 && colN % 27 !== 0) {  
-                var c = this.letter(65 + ((colN) % 27) - 1);
-                name = c + name;
-                colN = colN / 27;
-            }
-
-            result = name;
-
-            if (i % 27 !== 0) {
-                count++;
-            }
+        // Thanks to http://stackoverflow.com/a/3302991
+        if(!this.fromZero){
+            n = n - 1;
         }
-        return result;
-*/
-
-	if(!this.fromZero){
-		n = n - 1;
-	}
-	var nMod = n % 26;
-	var l = this.letter(65 + nMod);
-	var nIntDiv = parseInt(n / 26);
-	if (nIntDiv > 0) {
-		return this.fromInt(this.fromZero ? nIntDiv - 1 : nIntDiv) + l;
-	} else {
-		return l;
-	}
+        var nMod = n % 26;
+        var l = this.letter(65 + nMod);
+        var nIntDiv = parseInt(n / 26);
+        if (nIntDiv > 0) {
+            return this.fromInt(this.fromZero ? nIntDiv - 1 : nIntDiv) + l;
+        } else {
+            return l;
+        }
 
     };
 
@@ -104,7 +84,7 @@ function SpreadsheetColumn(opt){
         }
         return this.fromZero ? out - 1 : out;
     };
-    
+
     this.init(opt);
 };
 
