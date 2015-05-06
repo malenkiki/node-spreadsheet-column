@@ -22,7 +22,7 @@ You can play with it using two ways:
 Simple. Just use npm:
 
 ```
-npm install --save node-spreadsheet-column
+npm install --save spreadsheet-column
 ```
 
 ## Use it!
@@ -30,7 +30,7 @@ npm install --save node-spreadsheet-column
 Example is better than long blahblah, so:
 
 ```js
-var Spreadsheetcolumn = require('node-spreadsheet-column');
+var Spreadsheetcolumn = require('spreadsheet-column');
 var sc = new SpreadsheetColumn();
 
 console.log(sc.fromInt(1)); // "A"
@@ -47,7 +47,7 @@ console.log(sc.fromStr('AB')); // 28
 Simple, isn’t it? You can even use zero-indexed way too, just tell it when you create object:
 
 ```js
-var Spreadsheetcolumn = require('node-spreadsheet-column');
+var Spreadsheetcolumn = require('spreadsheet-column');
 var scz = new SpreadsheetColumn({zero: true});
 
 console.log(scz.fromInt(0)); // "A"
