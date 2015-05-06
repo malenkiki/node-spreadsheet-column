@@ -41,6 +41,8 @@ function SpreadsheetColumn(opt){
             throw 'Numeric coordinate cannot be zero if starting point is one!' ;
         }
 
+	// Thanks to http://stackoverflow.com/a/3302991
+/*
         var result = '';
         var count = 0;
 
@@ -61,8 +63,21 @@ function SpreadsheetColumn(opt){
                 count++;
             }
         }
-
         return result;
+*/
+
+	if(!this.fromZero){
+		n = n - 1;
+	}
+	var nMod = n % 26;
+	var l = this.letter(65 + nMod);
+	var nIntDiv = parseInt(n / 26);
+	if (nIntDiv > 0) {
+		return this.fromInt(this.fromZero ? nIntDiv - 1 : nIntDiv) + l;
+	} else {
+		return l;
+	}
+
     };
 
     this.fromStr = function(s){

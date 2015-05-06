@@ -2,8 +2,9 @@ var SpreadsheetColumn = require('./index.js');
 var assert = require("assert")
 
 var sc = new SpreadsheetColumn();
+var scz = new SpreadsheetColumn();
 
-describe('Converting from numeric index', function(){
+describe('Converting from numeric index starting from one', function(){
     it('should return one-character length string', function(){
         assert.equal(sc.fromInt(1).length, 1);
         assert.equal(sc.fromInt(17).length, 1);
@@ -70,4 +71,7 @@ describe('Converting from numeric index', function(){
     it('should return "AEO" string for integer 821', function(){
         assert.equal(sc.fromInt(821), "AEO");
     });
+});
+
+describe('Converting from numeric index starting from zero', function(){
 });
