@@ -288,3 +288,109 @@ describe('Converting from string to integer zero-indexed', function(){
     });
 
 });
+
+describe('Converting automagically from any type together', function(){
+    it('should throw error if parameter is not a string', function(){
+        assert.throws(function(){sc.fromAny(1);});
+    });
+    
+    it('should throw error if parameter is a string without any letter or digit', function(){
+        assert.throws(function(){sc.fromAny(':;; =+');});
+        assert.throws(function(){sc.fromAny('');});
+        assert.throws(function(){sc.fromAny('         ');});
+    });
+
+    it('should throw error if string has not valid column letter and/or digit indexes', function(){
+        assert.throws(function(){sc.fromAny('A1 5Y U2 i9')});
+    });
+
+    it('should return an object if string is valid', function(){
+        assert.equal(typeof(sc.fromAny('V 4 LI D ST R 1 NG')), 'object');
+    });
+
+    var result = [
+        {
+            original: 'V',
+            converted: 22
+        }, 
+        {
+            original: 4,
+            converted: 'D'
+        }, 
+        {
+            original: 'LI',
+            converted: 321
+        }, 
+        {
+            original: 'D',
+            converted: 4
+        }, 
+        {
+            original: 'ST',
+            converted: 514
+        }, 
+        {
+            original: 'R',
+            converted: 18
+        }, 
+        {
+            original: 1,
+            converted: 'A'
+        }, 
+        {
+            original: 'NG',
+            converted: 371
+        }
+    ];
+    
+    var resultz = [
+        {
+            original: 'V',
+            converted: 21
+        }, 
+        {
+            original: 4,
+            converted: 'E'
+        }, 
+        {
+            original: 'LI',
+            converted: 320
+        }, 
+        {
+            original: 'D',
+            converted: 3
+        }, 
+        {
+            original: 'ST',
+            converted: 513
+        }, 
+        {
+            original: 'R',
+            converted: 17
+        }, 
+        {
+            original: 1,
+            converted: 'B'
+        }, 
+        {
+            original: 'NG',
+            converted: 370
+        }
+    ];
+
+    it('should return an array of objects as result of convertions from values into the string', function(){
+        assert.deepEqual( sc.fromAny('V 4 LI D ST R 1 NG'), result);
+        assert.deepEqual( scz.fromAny('V 4 LI D ST R 1 NG'), resultz);
+        assert.deepEqual( sc.fromAny('V-4-LI;D,ST:R,1 NG'), result);
+        assert.deepEqual( scz.fromAny('V 4 LI D ST.R/1 NG'), resultz);
+    });
+
+    it('should return same result object if source string differs only by cases', function(){
+        assert.deepEqual(sc.fromAny('V 4 LI D ST R 1 NG'), sc.fromAny('v 4 li d st r 1 ng'));
+        assert.deepEqual(scz.fromAny('V 4 LI D ST R 1 NG'), scz.fromAny('v 4 li d st r 1 ng'));
+    });
+
+    it('should have different result for the same source string, but with too diffret instance: one from zero, other from one', function(){
+        assert.notDeepEqual(sc.fromAny('V 4 LI D ST R 1 NG'), scz.fromAny('V 4 LI D ST R 1 NG'));
+    });
+});

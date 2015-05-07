@@ -85,6 +85,57 @@ function SpreadsheetColumn(opt){
         return this.fromZero ? out - 1 : out;
     };
 
+    this.fromAny = function(thing){
+        if(typeof(thing) !== 'string'){
+            throw 'Autodetection is done only with string of letters and digits.';
+        }
+
+        if(thing.match(/^[^0-9a-z]+$/gi) || thing.trim().length === 0){
+            throw 'Autodetection cannot be done, there are some invalid characters';
+        }
+
+        var out = [];
+
+        var columns = thing.split(/[^0-9a-z]+/gi);
+
+        for(var i in columns){
+            var item = columns[i];
+            var checkings = item.split('');
+            var type;
+
+            for(var j in checkings){
+                var c = checkings[j];
+                var forcedToDigit = parseInt(c);
+
+                if(j === 0 || typeof(type) !== 'boolean'){
+                    type = isNaN(forcedToDigit);
+                }
+
+                if(isNaN(forcedToDigit) !== type){
+                    throw 'Column having both digits and letters is not correct. Aborting';
+                }
+            }
+
+            if(type){
+                out.push({
+                    original: item.toUpperCase(),
+                    converted: this.fromStr(item)
+                });
+            } else {
+                out.push({
+                    original: parseInt(item),
+                    converted: this.fromInt(parseInt(item))
+                });
+            }
+            
+            type = null;
+        }
+
+
+
+        return out;
+    };
+
     this.init(opt);
 };
 

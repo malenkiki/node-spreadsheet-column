@@ -61,6 +61,42 @@ console.log(scz.fromStr('AA')); // 26
 console.log(scz.fromStr('AB')); // 27
 ```
 
+A new feature allows you to have collection of results from a string having digits and/or letters:
+
+```js
+var Spreadsheetcolumn = require('spreadsheet-column');
+var sc = new SpreadsheetColumn();
+console.log(sc.fromAny('V 4 L iD'));
+// with custom separator too:
+console.log(sc.fromAny('V;4;L;iD'));
+```
+
+Previous 2 instructions will return the same following result:
+
+```js
+[
+    {
+        original: "V",
+        converted: 22
+    },
+    {
+        original: 4,
+        converted: "D"
+    },
+    {
+        original: "L",
+        converted: 12
+    },
+    {
+        original: "ID",
+        converted: 238
+    }
+]
+```
+
+Note: Letters are converted to uppercases.
+Note 2: A group having both letters and digits throw an error. Exemple: `V4 LI D` has its first group invalid.
+
 ## Test it!
 
 Clone current source code, then go into the source’s directory, and install dependencies:
