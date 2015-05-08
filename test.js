@@ -390,7 +390,7 @@ describe('Converting automagically from any type together', function(){
         assert.deepEqual(scz.fromAny('V 4 LI D ST R 1 NG'), scz.fromAny('v 4 li d st r 1 ng'));
     });
 
-    it('should have different result for the same source string, but with too diffret instance: one from zero, other from one', function(){
+    it('should have different result for the same source string, but with too diffrent instance: one from zero, other from one', function(){
         assert.notDeepEqual(sc.fromAny('V 4 LI D ST R 1 NG'), scz.fromAny('V 4 LI D ST R 1 NG'));
     });
 });

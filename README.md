@@ -95,7 +95,8 @@ Previous 2 instructions will return the same following result:
 ```
 
 Note: Letters are converted to uppercases.
-Note 2: A group having both letters and digits throw an error. Exemple: `V4 LI D` has its first group invalid.
+
+Note 2: A group having both letters and digits throws an error. Example: `V4 LI D` has its first group invalid.
 
 ## Test it!
 
