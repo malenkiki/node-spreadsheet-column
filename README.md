@@ -138,10 +138,6 @@ And then run unit tests:
 npm test
 ```
 
-## Near futur
-
-Soon, CLI version will be available, like its PHP brother.
-
 ## License?
 
 It is under MIT License.
