@@ -115,13 +115,64 @@ Very simple:
 $ spreadsheet-column A B Z 45 AA AB
 ```
 
-Gives you converting results for each values passed as arguments.
+Previous example gives you converting results for each values passed as arguments:
 
-You can choose output format: JSON or formated output.
+```
+A => 1
+B => 2
+Z => 26
+45 => AS
+AA => 27
+AB => 28
+```
 
-You can use 0 or 1 as starting point for number indexes.
+Starting from zero is possible too:
 
-Look at the help message, by running CLI without argument nor options.
+```
+$ spreadsheet-column --zero A B Z 45 AA AB
+```
+
+It does:
+
+```
+A => 0
+B => 1
+Z => 25
+45 => AT
+AA => 26
+AB => 27
+
+```
+
+You can choose output format, JSON or formated output (by default, seen into first example):
+
+```
+$ spreadsheet-column --json A 26 AA
+```
+
+This output produces this:
+
+```
+[{"original":"A","converted":1},{"original":26,"converted":"Z"},{"original":"AA","converted":27}]
+```
+
+You can play with standard input too, by using pipe or by inputing value using your keyboard:
+
+```
+$ echo '50 ME TH 1 N6' | spreadsheet-column --stdin
+$ spreadsheet-column --stdin
+6
+6 => F
+E
+E => 5
+ZZ
+ZZ => 702
+…
+```
+
+Into second call, you can stop by pressing `CTRL + C`.
+
+You have all this informations resumed into help: `spreadsheet-column --help`.
 
 
 ## Test it!

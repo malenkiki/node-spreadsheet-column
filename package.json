@@ -1,6 +1,6 @@
 {
   "name": "spreadsheet-column",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Converts spreadsheet column letter index to numeric index and vice versa.",
   "main": "index.js",
   "scripts": {

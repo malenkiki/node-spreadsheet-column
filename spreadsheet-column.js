@@ -27,11 +27,15 @@ SOFTWARE.
 (function(){
     var argv;
 
+
+
     this.init = function(){
         this.parse();
         this.dispatch();
     };
     
+
+
     this.parse = function(){
         this.argv = require('minimist')(
             process.argv.slice(2), 
@@ -43,20 +47,29 @@ SOFTWARE.
                     "json", 
                     "version", 
                     "help",
-                    "h"
+                    "h",
+                    "stdin"
                 ]
             }
         );
     };
 
-    this.convert = function(){
+
+
+    this.convert = function(input){
         var SpreadsheetColumn = require('./index.js');
         var sc = new SpreadsheetColumn({
             zero: this.argv.z || this.argv.zero
         });
 
         try {
-            var result = sc.fromAny(this.argv._.join(' '));
+            var result;
+
+            if(this.argv._.length){
+                result = sc.fromAny(this.argv._.join(' '));
+            } else if(typeof(input) === 'string') {
+                result = sc.fromAny(input);
+            }
 
             if(this.argv.j || this.argv.json){
                 console.log(JSON.stringify(result));
@@ -70,6 +83,8 @@ SOFTWARE.
             process.exit(1);
         }
     };
+
+
 
     this.version = function(){
         var path = require('path');
@@ -92,14 +107,44 @@ SOFTWARE.
         );
     };
 
+
+
     this.help = function(){
         console.log('Converts spreadsheet column name to number and number to spreadsheet column name.');
         console.log('Synopsis: spreadsheet-column [option] [ARG1 ARG2…]');
         console.log(" -z, --zero       Numbers start from zero in place of one.");
         console.log(" -j, --json       Outputs result as JSON.");
+        console.log("     --stdin      Accepts data from standard input (pipe or keyboard).");
         console.log("     --version    Version information.");
         console.log(" -h, --help       Shows help message.");
     };
+
+
+
+    this.acceptFromPipe = function(success, fail){
+        var input = '';
+
+        process.stdin.setEncoding('utf8');
+
+        process.stdin.on('readable', function(){
+            chunk = process.stdin.read();
+
+            if (chunk !== null && typeof(chunk) !== 'undefined') {
+                input += chunk = chunk.trim(/[\n]+/g);
+                success(chunk);
+            }
+        });
+
+        process.stdin.on('end', function(){
+            if(input.trim().length){
+                success(input);
+            } else {
+                fail();
+            }
+        });
+    };
+
+
 
     this.dispatch = function(){
         if(this.argv._.length){
@@ -108,10 +153,14 @@ SOFTWARE.
             this.version();
         } else if(this.argv.h || this.argv.help){
             this.help();
+        } else if(this.argv.stdin){
+            this.acceptFromPipe(this.convert, this.help);
         } else {
             this.help();
         }
     };
+
+
 
     this.init();
 
