@@ -1,30 +1,38 @@
 {
-    "name": "spreadsheet-column",
-    "version": "0.9.3",
-    "description": "Converts spreadsheet column letter index to numeric index and vice versa.",
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha"
-    },
-    "keywords": [
-        "spreadsheet",
-        "coordinates",
-        "letter",
-        "index"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/malenkiki/node-spreadsheet-column.git"
-    },
-    "bugs": {
-        "url": "https://github.com/malenkiki/node-spreadsheet-column/issues"
-    },
-    "engines": {
-        "node": "*"
-    },
-    "devDependencies": {
-        "mocha": "2.2.4"
-    },
-    "author": "Michel Petit",
-    "license": "MIT"
+  "name": "spreadsheet-column",
+  "version": "0.9.4",
+  "description": "Converts spreadsheet column letter index to numeric index and vice versa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "spreadsheet",
+    "column",
+    "coordinates",
+    "letter",
+    "index",
+    "number"
+  ],
+  "bin": {
+    "spreadsheet-column": "spreadsheet-column.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/malenkiki/node-spreadsheet-column.git"
+  },
+  "bugs": {
+    "url": "https://github.com/malenkiki/node-spreadsheet-column/issues"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "mocha": "2.2.4"
+  },
+  "author": "Michel Petit <petit.michel@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "~1.1.1"
+  }
 }

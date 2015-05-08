@@ -15,17 +15,26 @@ So, this little library deals with that. So, you can easily switch from one syst
 You can play with it using two ways:
 
  - By using library to use it into your code
- - Into the futur, by using CLI script
+ - By using CLI script
 
 ## Install it!
 
-Simple. Just use npm:
+Simple. Just use npm.
+
+To use it into your project:
 
 ```
 npm install --save spreadsheet-column
 ```
 
-## Use it!
+To use it as CLI application:
+
+```
+npm install -g spreadsheet-column
+```
+
+
+## Use it into your code!
 
 Example is better than long blahblah, so:
 
@@ -97,6 +106,23 @@ Previous 2 instructions will return the same following result:
 Note: Letters are converted to uppercases.
 
 Note 2: A group having both letters and digits throws an error. Example: `V4 LI D` has its first group invalid.
+
+## Use it as CLI!
+
+Very simple:
+
+```
+$ spreadsheet-column A B Z 45 AA AB
+```
+
+Gives you converting results for each values passed as arguments.
+
+You can choose output format: JSON or formated output.
+
+You can use 0 or 1 as starting point for number indexes.
+
+Look at the help message, by running CLI without argument nor options.
+
 
 ## Test it!
 
