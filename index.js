@@ -36,6 +36,8 @@ function SpreadsheetColumn(opt){
     this.fromZero = false;
     this.arr = [];
 
+
+
     /**
      * Constructor, takes options and does some basic stuff.
      *
@@ -52,12 +54,21 @@ function SpreadsheetColumn(opt){
         }
     };
 
+
+
+
     /**
+     * Gets letters by its numeric index into alphabet.
+     *
      * @private 
+     * @param {Number} idx Numeric index of the letter
+     * @param {String} Corresponding letter
      */
     this.getLetterByIndex = function(idx){
         return this.arr[idx - 1];
     };
+
+
 
 
     /**
@@ -68,8 +79,15 @@ function SpreadsheetColumn(opt){
     };
 
 
+
+
     /**
+     * Converts numeric ASCII code to its letter only if this letter is ASCII
+     * character into the range [A-Z].
+     *
      * @private 
+     * @param {Number} code ASCII code
+     * @return {String} Character [A-Z] or void string
      */
     this.letter = function(code) {
         var l = String.fromCharCode(code);
@@ -81,12 +99,32 @@ function SpreadsheetColumn(opt){
         }
     };
 
+
+
+
     /**
      * Converts an integer to string column name using letters.
      *
+     * Example:
+     *
+     *     var sc = new SpreadsheetColumn();
+     *     sc.fromInt(0); // Error
+     *     sc.fromInt(1); // A
+     *     sc.fromInt(26); // Z
+     *     sc.fromInt(27); // AA
+     *
+     *     var scz = new SpreadsheetColumn({zero: true});
+     *     scz.fromInt(0); // A
+     *     scz.fromInt(1); // B
+     *     scz.fromInt(26); // AA
+     *     scz.fromInt(27); // AB
+     *
      * @public
-     * @param {!Number} Number Number to convert
+     * @param {!Number} n Number to convert into ASCII letter column name
      * @return {String} Column’s name using letters
+     * @throws {Error} Exception if input number is not an integer.
+     * @throws {Error} Exception if input number is negative.
+     * @throws {Error} Exception if SpreadsheetColumn instance is set with `fromZero` to `false` and input param is zero.
      */
     this.fromInt = function(n) {
 
@@ -116,8 +154,28 @@ function SpreadsheetColumn(opt){
 
     };
 
+
+
+
     /**
+     * Converts alphabetic column name into its numeric version.
+     *
+     * Example:
+     * 
+     *     var sc = new SpreadsheetColumn();
+     *     sc.fromStr("A"); // 1
+     *     sc.fromStr("Z"); // 26
+     *     sc.fromStr("AA"); // 27
+     * 
+     *     var scz = new SpreadsheetColumn({zero: true});
+     *     scz.fromStr("A"); // 0
+     *     scz.fromStr("Z"); // 25
+     *     scz.fromStr("AA"); // 26
+     *
      * @public 
+     * @param {String} s String to parse
+     * @throws {Error} Exception if parameter is not a String
+     * @throws {Error} Exception if string does not contain ASCII letters (upper or lower cases)
      */
     this.fromStr = function(s){
         if(typeof(s) !== 'string'){
@@ -144,8 +202,73 @@ function SpreadsheetColumn(opt){
         return this.fromZero ? out - 1 : out;
     };
 
+
+
+
     /**
+     * Convert a string containing letters and digits to their converted values.
+     *
+     * This accepts any string containing ASCII letters and/or digits, separated
+     * by any other characters. It splits the string into groups of letters and
+     * digits, then it converts each group to numeric or alphabetic column
+     * coordinates. 
+     *
+     * Example:
+     *
+     *     var sc = new SpreadsheetColumn();
+     *     console.log(sc.fromAny('A Z 3;aa'));
+     *     // gives:
+     *     [
+     *          {
+     *              orginal: "A",
+     *              converted: 1
+     *          },
+     *          {
+     *              orginal: "Z",
+     *              converted: 26
+     *          },
+     *          {
+     *              orginal: 3,
+     *              converted: "C"
+     *          },
+     *          {
+     *              orginal: "AA",
+     *              converted: 27
+     *          }
+     *     ]
+     *
+     *     var scz = new SpreadsheetColumn({zero: true});
+     *     console.log(sc.fromAny('A Z 3;aa'));
+     *     // gives:
+     *     [
+     *          {
+     *              orginal: "A",
+     *              converted: 0
+     *          },
+     *          {
+     *              orginal: "Z",
+     *              converted: 25
+     *          },
+     *          {
+     *              orginal: 3,
+     *              converted: "D"
+     *          },
+     *          {
+     *              orginal: "AA",
+     *              converted: 26
+     *          }
+     *     ]
+     *
+     * __Warning:__ if a group has letters AND digits, then this raises an error.
+     *
+     * __Note:__ Letters are converted to uppercases.
+     *
      * @public 
+     * @param {String} thing Input string to parse
+     * @return {Object[]}
+     * @throws {Error} Exception if param is not a String
+     * @throws {Error} Exception if string does not contain valid characters
+     * @throws {Error} Exception if at least one group has digits and letters together
      */
     this.fromAny = function(thing){
         if(typeof(thing) !== 'string'){
