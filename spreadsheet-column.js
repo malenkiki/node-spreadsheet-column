@@ -29,6 +29,9 @@ SOFTWARE.
 
 
 
+    /**
+     * @constructor 
+     */
     this.init = function(){
         this.parse();
         this.dispatch();
@@ -36,6 +39,9 @@ SOFTWARE.
     
 
 
+    /**
+     * Parse arguments passed to the CLI. 
+     */
     this.parse = function(){
         this.argv = require('minimist')(
             process.argv.slice(2), 
@@ -56,6 +62,11 @@ SOFTWARE.
 
 
 
+    /**
+     * Converts passed values
+     *
+     * If an exception occurs, exit CLI. 
+     */
     this.convert = function(input){
         var SpreadsheetColumn = require('./index.js');
         var sc = new SpreadsheetColumn({
@@ -86,6 +97,11 @@ SOFTWARE.
 
 
 
+    /**
+     * Display some version information about this project.
+     *
+     * It uses its own `package.json` to get its data.
+     */
     this.version = function(){
         var path = require('path');
         require('fs').readFile(
@@ -109,6 +125,9 @@ SOFTWARE.
 
 
 
+    /**
+     * display help message about CLI script. 
+     */
     this.help = function(){
         console.log('Converts spreadsheet column name to number and number to spreadsheet column name.');
         console.log('Synopsis: spreadsheet-column [option] [ARG1 ARG2…]');
@@ -121,6 +140,9 @@ SOFTWARE.
 
 
 
+    /**
+     * Converts each data passed using `stdin` (pipe or keyboard). 
+     */
     this.acceptFromPipe = function(success, fail){
         var input = '';
 
@@ -146,6 +168,9 @@ SOFTWARE.
 
 
 
+    /**
+     * Runs the right task for the right arguments passed.
+     */
     this.dispatch = function(){
         if(this.argv._.length){
             this.convert();
@@ -162,6 +187,9 @@ SOFTWARE.
 
 
 
+    /**
+     * Run the script. 
+     */
     this.init();
 
 })();
