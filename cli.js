@@ -114,7 +114,23 @@ SOFTWARE.
                     process.exit(1);
                 } else {
                     var d = JSON.parse(data);
-                    console.log(d.name +' version '+ d.version + ' by ' + d.author);
+                    var sprintf = require('sprint');
+                    if(typeof(d.author) === 'object'){
+                        console.log(sprintf(
+                            "%s version %s by %s <%s>",
+                            d.name, 
+                            d.version,
+                            d.author.name,
+                            d.author.email
+                        ));
+                    } else {
+                        console.log(sprintf(
+                            "%s version %s by %s",
+                            d.name,
+                            d.version,
+                            d.author
+                        ));
+                    }
                     console.log(d.license + ' license');
                 }
             }
