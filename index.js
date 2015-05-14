@@ -23,12 +23,25 @@ SOFTWARE.
 */
 
 
+/**
+ * Implements new SpreadSheetColumn object. 
+ * 
+ * @class
+ * @param {{zero: Boolean}} Options
+ * @return {Object}
+ */
 function SpreadsheetColumn(opt){
 
 
     this.fromZero = false;
     this.arr = [];
 
+    /**
+     * Constructor, takes options and does some basic stuff.
+     *
+     * @private
+     * @param {{zero: Boolean}} Options
+     */
     this.init = function(opt){
         if(opt && typeof(opt.zero) === 'boolean'){
             this.fromZero = opt.zero;
@@ -39,14 +52,25 @@ function SpreadsheetColumn(opt){
         }
     };
 
+    /**
+     * @private 
+     */
     this.getLetterByIndex = function(idx){
         return this.arr[idx - 1];
     };
 
+
+    /**
+     * @private 
+     */
     this.getIndexByLetter = function(letter){
         return this.arr.indexOf(letter) + 1;
     };
 
+
+    /**
+     * @private 
+     */
     this.letter = function(code) {
         var l = String.fromCharCode(code);
 
@@ -57,6 +81,13 @@ function SpreadsheetColumn(opt){
         }
     };
 
+    /**
+     * Converts an integer to string column name using letters.
+     *
+     * @public
+     * @param {!Number} Number Number to convert
+     * @return {String} Column’s name using letters
+     */
     this.fromInt = function(n) {
 
         if(typeof(n) !== 'number' || (typeof(n) === 'number' && (parseInt(n) - n) !== 0)){
@@ -85,6 +116,9 @@ function SpreadsheetColumn(opt){
 
     };
 
+    /**
+     * @public 
+     */
     this.fromStr = function(s){
         if(typeof(s) !== 'string'){
             throw 'Spreadsheet coordinate must be a string.';
@@ -110,6 +144,9 @@ function SpreadsheetColumn(opt){
         return this.fromZero ? out - 1 : out;
     };
 
+    /**
+     * @public 
+     */
     this.fromAny = function(thing){
         if(typeof(thing) !== 'string'){
             throw 'Autodetection is done only with string of letters and digits.';
